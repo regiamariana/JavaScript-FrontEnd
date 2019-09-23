@@ -1,0 +1,94 @@
+//é colocado no final pq se colocar primeiro vai execultar a pagina antes d execultar o java
+     //let tela = 1;
+     //let tela = "tela"
+     //if("2"=="2"){
+      //let tela2 = 'escopo'
+     //}
+     //console.log(tela2);
+     const input__categoria = document.querySelector('#input__categoria'); //0 # sig. q está procurando por id
+     //. procura ou seleciona pela classe
+     const btn__cadastrar = document.querySelector('#btn__cadastrar')
+     
+
+    window.onload = function(){
+      // let categorias = [
+        // {idCategoria: 1, nome: "Categoria A"},
+        // {idCategoria: 2, nome: "Categoria B"},
+        // {idCategoria: 3, nome: "Categoria C"},
+        // {idCategoria: 4, nome: "Categoria D"},
+      //];
+
+      // function success() {
+      //   let data = JSON.parse(this.responseText);
+      //   construirTabelas(data);
+      //   console.log(data)
+
+      // }
+
+      // function error(err) {
+      //   console.log(err)
+      // }
+
+      // let xhr = new XMLHttpRequest();
+      // xhr.onload = success;
+      // xhr.onerror = error;
+      // xhr.open('GET', 'http://192.168.7.85:5000/api/categorias');
+      // xhr.send()
+
+      let url = 'http://192.168.7.85:5000/api/categorias';
+
+      fetch(url)
+       .then( resposta => resposta.json() )
+       .then( data => construirTabelas(data) )
+       .catch( erro => console.log(erro) )
+      
+      
+      function construirTabelas(categorias) {
+        
+      categorias.forEach( element => {
+        const tr = document.createElement('tr');
+        const td_id = document.createElement('td');
+        const td_nome = document.createElement('td');
+
+        td_id.textContent = element.idCategoria;
+        td_nome.textContent = element.idCategoria;
+
+        tr.appendChild(td_nome);
+        tr.appendChild(td_id);
+        tabela.appendChild(tr)
+        
+      });
+      }
+
+        
+    }
+    //let valor = input__categoria.value;
+
+    btn__cadastrar.addEventListener('click',function(event){
+      event.preventDefault(); //preventDefault bloqueia a acao q a pagi. faz
+
+      //JSON!!!!!
+      let objetoJSON = {
+        nome: input__categoria.value
+      };
+      console.log(objetoJSON);
+
+      //MANDAR PRA API!!!!!!!!!!
+      let xhr = new XMLHttpRequest();
+
+      xhr.onload = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+          console.log('sucesso');
+        }else{
+          console.log('erro');
+        
+
+        }
+
+      }
+      xhr.open('POST','http://192.168.7.85:5000/api/categorias', true );
+      xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      xhr.send(JSON.stringify(objetoJSON));
+    });
+    //addEventListener espera o usurio interagir
+     //console.log(input__categoria);
